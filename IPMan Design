@@ -1,0 +1,45 @@
+IPMan Design
+
+Subnets:
+{
+  Key: Int,
+  Name: String
+}
+
+IPAddresses:
+{
+  Key: Int,
+  IPAdress: String,
+  Subnet: Subnet.Key
+}
+
+Users:
+{
+  Key: Int,
+  Username: String,
+  Password: String,
+  Name: String
+}
+
+Leases:
+{
+  Key: Int,
+  User: User.key,
+  IP: IPAddress.key
+}
+
+
+Actions:
+- List all subnets [GET /subnets] 
+- Add a subnet [POST /subnets]
+- Remove a subnet [DELETE /subnets/:id]
+- List all IPs [GET /ipAddresses]
+- List all available IPs [GET /availableIPAddresses]
+- List all users [GET /users]
+- Add a user [POST /users]
+- Modify a user [PUT /users/:id]
+- Remove a user [DELETE /users/:id]
+- List all leases [GET /leases]
+- List all leases for a user [GET /leases/:id]
+- Add a lease [POST /leases]
+- Remove a lease [DELETE /leases/:id]
