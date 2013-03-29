@@ -10,11 +10,17 @@ app.configure(function () {
   app.use(express.static(path.join(__dirname, 'www')));
 });
 
-app.get('/ipAddresses', ipMan.list);
-app.get('/ipAddresses/:id', ipMan.byId);
-app.post('/ipAddresses', ipMan.add);
-// app.put('/ipAddresses/:id', ipMan.update);
-// app.delete('/ipAddresses/:id', ipMan.delete);
+// app.get('/ipAddresses', ipMan.getIPs);
+// app.get('/ipAddresses/:id', ipMan.getIPById);
+// app.post('/ipAddresses', ipMan.addIP);
+// app.put('/ipAddresses/:id', ipMan.updateIP);
+// app.delete('/ipAddresses/:id', ipMan.deleteIP);
+
+// app.get('/subnets', ipMan.getSubnets);
+// app.get('/subnets/:id', ipMan.getSubnetById);
+// app.post('/subnets', ipMan.addSubnet);
+// app.put('/subnets/:id', ipMan.updateSubnet);
+// app.delete('/subnets/:id', ipMan.deleteSubnet);
  
-app.listen(8000);
-console.log('Listening on port 8000...');
+app.listen(8080);
+console.log('Listening on port 8080...');
