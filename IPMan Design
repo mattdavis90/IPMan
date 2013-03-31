@@ -25,7 +25,8 @@ Leases:
 {
   Key: Int,
   User: User.key,
-  IP: IPAddress.key
+  IP: IPAddress.key,
+  Location: String
 }
 
 

@@ -10,17 +10,23 @@ app.configure(function () {
   app.use(express.static(path.join(__dirname, 'www')));
 });
 
-// app.get('/ipAddresses', ipMan.getIPs);
-// app.get('/ipAddresses/:id', ipMan.getIPById);
-// app.post('/ipAddresses', ipMan.addIP);
-// app.put('/ipAddresses/:id', ipMan.updateIP);
-// app.delete('/ipAddresses/:id', ipMan.deleteIP);
 
-// app.get('/subnets', ipMan.getSubnets);
-// app.get('/subnets/:id', ipMan.getSubnetById);
-// app.post('/subnets', ipMan.addSubnet);
-// app.put('/subnets/:id', ipMan.updateSubnet);
-// app.delete('/subnets/:id', ipMan.deleteSubnet);
+app.get('/subnets', ipMan.getSubnets);
+app.post('/subnets', ipMan.addSubnet);
+app.delete('/subnets/:id', ipMan.removeSubnet);
+
+app.get('/ipAddresses', ipMan.getIPs);
+app.get('/availableIPAddresses', ipMan.getAvailableIPs);
+
+app.get('/users', ipMan.getUsers);
+app.post('/users', ipMan.addUser);
+app.put('/users/:id', ipMan.updateUser);
+app.delete('/users/:id', ipMan.removeUser);
+
+app.get('/leases', ipMan.getLeases);
+app.get('/leases/:id', ipMan.getUsersLeases);
+app.post('/leases', ipMan.addLease);
+app.delete('/leases/:id', ipMan.removeLease);
  
 app.listen(8080);
 console.log('Listening on port 8080...');
