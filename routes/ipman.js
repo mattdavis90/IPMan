@@ -14,46 +14,9 @@ db.open(function(err, db) {
 });
  
 exports.getSubnets = function(req, res) {
-  db.collection('subnets', function(err, collection) {
-    collection.find().toArray(function(err, subnets) {
+  db.collection('ipAddresses', function(err, collection) {
+    collection.distinct('subnet', function(err, subnets) {
       res.send(subnets);
-    });
-  });
-}
-exports.addSubnet = function(req, res) {
-  var subnetName = req.body.name;
-  var ipAddresses = req.body.ipAddresses;
-
-  if(subnetName && ipAddresses) {
-    // TODO: Name needs to be unique
-    // TODO: should create child IPs
-    var subnet = {
-      'name': subnetName
-    };
-
-    db.collection('subnets', function(err, collection) {
-      collection.insert(subnet, {safe: true}, function(err, result) {
-        if(err) {
-          res.send({'error': err});
-        } else {
-          res.send(result[0]);
-        }
-      });
-    });
-  } else {
-    res.send({'error': 'Must specify IPAddresses'});
-  }
-}
-exports.removeSubnet = function(req, res) {
-  var id = req.params.id;
-// TODO: Remove any underlying IPAddresses and Leases
-  db.collection('subnets', function(err, collection) {
-    collection.remove({'_id': new BSON.ObjectID(id)}, {safe: true}, function(err, result) {
-      if(err) {
-        res.send({'error': err});
-      } else {
-        res.send(req.body);
-      }
     });
   });
 }
@@ -66,7 +29,46 @@ exports.getIPs = function(req, res) {
   });
 }
 exports.getAvailableIPs = function(req, res) {
-  res.send('ok');
+  db.collection('ipAddresses', function(err, collection) {
+    collection.find({'reserved': false}).toArray(function(err, ips) {
+      res.send(ips);
+    });
+  });
+}
+exports.getSingleIP = function(req, res) {
+  var id = req.params.id;
+
+  db.collection('ipAddresses', function(err, collection) {
+    collection.findOne({'_id':new BSON.ObjectID(id)}, function(err, ip) {
+      res.send(ip);
+    });
+  });
+}
+exports.addIP = function(req, res) {
+  var ipAddresses = req.body;
+
+  db.collection('ipAddresses', function(err, collection) {
+    collection.insert(ipAddresses, {safe: true}, function(err, result) {
+      if(err) {
+        res.send({'error': err});
+      } else {
+        res.send(result[0]);
+      }
+    });
+  });
+}
+exports.removeIP = function(req, res) {
+  var id = req.params.id;
+
+  db.collection('ipAddresses', function(err, collection) {
+    collection.remove({'_id': BSON.ObjectID(id)}, {safe: true}, function(err, result) {
+      if(err) {
+        res.send({'error': err});
+      } else {
+        res.send(req.body);
+      }
+    });
+  });
 }
 
 exports.getUsers = function(req, res) {
@@ -95,13 +97,6 @@ exports.removeLease = function(req, res) {
   res.send('ok');
 }
 
-// exports.list = function(req, res) {
-//   db.collection('ipAddresses', function(err, collection) {
-//     collection.find().toArray(function(err, addresses) {
-//       res.send(addresses);
-//     });
-//   });
-// };
  
 // exports.byId = function(req, res) {
 //   var id = req.params.id;
@@ -112,20 +107,6 @@ exports.removeLease = function(req, res) {
 //     });
 //   });
 // };
- 
-// exports.add = function(req, res) {
-//   var ipAddress = req.body;
-  
-//   db.collection('ipAddresses', function(err, collection) {
-//     collection.insert(ipAddress, {safe:true}, function(err, result) {
-//       if(err) {
-//         res.send({'error':'An error has occurred'});
-//       } else {
-//         res.send(result[0]);
-//       }
-//     });
-//   });
-// }
  
 // exports.updateWine = function(req, res) {
 // var id = req.params.id;
@@ -140,21 +121,6 @@ exports.removeLease = function(req, res) {
 // } else {
 // console.log('' + result + ' document(s) updated');
 // res.send(wine);
-// }
-// });
-// });
-// }
- 
-// exports.deleteWine = function(req, res) {
-// var id = req.params.id;
-// console.log('Deleting wine: ' + id);
-// db.collection('wines', function(err, collection) {
-// collection.remove({'_id':new BSON.ObjectID(id)}, {safe:true}, function(err, result) {
-// if (err) {
-// res.send({'error':'An error has occurred - ' + err});
-// } else {
-// console.log('' + result + ' document(s) deleted');
-// res.send(req.body);
 // }
 // });
 // });

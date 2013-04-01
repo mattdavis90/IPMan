@@ -12,11 +12,12 @@ app.configure(function () {
 
 
 app.get('/subnets', ipMan.getSubnets);
-app.post('/subnets', ipMan.addSubnet);
-app.delete('/subnets/:id', ipMan.removeSubnet);
 
 app.get('/ipAddresses', ipMan.getIPs);
 app.get('/availableIPAddresses', ipMan.getAvailableIPs);
+app.get('/ipAddresses/:id', ipMan.getSingleIP);
+app.post('/ipAddresses', ipMan.addIP);
+app.delete('/ipAddresses/:id', ipMan.removeIP);
 
 app.get('/users', ipMan.getUsers);
 app.post('/users', ipMan.addUser);
