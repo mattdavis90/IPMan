@@ -1,18 +1,27 @@
+/**
+ * Includes and connect to DB
+ **/
 var mongo = require('mongodb');
- 
+// Get pointers to some useful types
 var Server = mongo.Server;
 var DB = mongo.Db;
 var BSON = mongo.BSONPure;
- 
+
+// Create references to the server and DB
 var server = new Server('localhost', 27017, {auto_reconnect: true});
 db = new DB('ipMan', server, {safe: true});
- 
+
+// Open the database
 db.open(function(err, db) {
   if(!err) {
     console.log("Connected to the database");
   }
 });
- 
+
+/**
+ * getSubnets()
+ * Finds all the subnets mentioned in the ipAddresses collection
+ **/
 exports.getSubnets = function(req, res) {
   db.collection('ipAddresses', function(err, collection) {
     collection.distinct('subnet', function(err, subnets) {
@@ -21,6 +30,10 @@ exports.getSubnets = function(req, res) {
   });
 }
 
+/**
+ * getIPs()
+ * Finds all the IPs in the ipAddresses collection
+ **/
 exports.getIPs = function(req, res) {
   db.collection('ipAddresses', function(err, collection) {
     collection.find().toArray(function(err, ips) {
@@ -28,6 +41,10 @@ exports.getIPs = function(req, res) {
     });
   });
 }
+/**
+ * getAvailableIPs()
+ * Finds all the IPs in the ipAddresses collection with no reservation
+ **/
 exports.getAvailableIPs = function(req, res) {
   db.collection('ipAddresses', function(err, collection) {
     collection.find({'reserved': false}).toArray(function(err, ips) {
@@ -35,6 +52,10 @@ exports.getAvailableIPs = function(req, res) {
     });
   });
 }
+/**
+ * getSingleIP()
+ * Finds the IP in the ipAddresses collection with the given ID
+ **/
 exports.getSingleIP = function(req, res) {
   var id = req.params.id;
 
@@ -44,6 +65,10 @@ exports.getSingleIP = function(req, res) {
     });
   });
 }
+/**
+ * getIP()
+ * Adds one or more IPs to the ipAddresses collection
+ **/
 exports.addIP = function(req, res) {
   var ipAddresses = req.body;
 
@@ -57,6 +82,10 @@ exports.addIP = function(req, res) {
     });
   });
 }
+/**
+ * removeIP()
+ * Removes an IP from the ipAddresses collection
+ **/
 exports.removeIP = function(req, res) {
   var id = req.params.id;
 
@@ -96,32 +125,3 @@ exports.addLease = function(req, res) {
 exports.removeLease = function(req, res) {
   res.send('ok');
 }
-
- 
-// exports.byId = function(req, res) {
-//   var id = req.params.id;
-
-//   db.collection('ipAddresses', function(err, collection) {
-//     collection.findOne({'_id':new BSON.ObjectID(id)}, function(err, address) {
-//       res.send(address);
-//     });
-//   });
-// };
- 
-// exports.updateWine = function(req, res) {
-// var id = req.params.id;
-// var wine = req.body;
-// console.log('Updating wine: ' + id);
-// console.log(JSON.stringify(wine));
-// db.collection('wines', function(err, collection) {
-// collection.update({'_id':new BSON.ObjectID(id)}, wine, {safe:true}, function(err, result) {
-// if (err) {
-// console.log('Error updating wine: ' + err);
-// res.send({'error':'An error has occurred'});
-// } else {
-// console.log('' + result + ' document(s) updated');
-// res.send(wine);
-// }
-// });
-// });
-// }
