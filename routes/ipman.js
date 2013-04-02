@@ -77,7 +77,7 @@ exports.addIP = function(req, res) {
       if(err) {
         res.send({'error': err});
       } else {
-        res.send(result[0]);
+        res.send(result);
       }
     });
   });
@@ -94,34 +94,166 @@ exports.removeIP = function(req, res) {
       if(err) {
         res.send({'error': err});
       } else {
-        res.send(req.body);
+        res.send(result);
       }
     });
   });
 }
 
-exports.getUsers = function(req, res) {
-  res.send('ok');
+/**
+ * getLeases()
+ * Get all the IP Addresses that are reserved
+ **/
+exports.getLeases = function(req, res) {
+  db.collection('ipAddresses', function(err, collection) {
+    collection.find({'reserved': true}).toArray(function(err, leases) {
+      res.send(leases);
+    });
+  });
 }
-exports.addUser = function(req, res) {
-  res.send('ok');
+/**
+ * getUsersLeases()
+ * Get all the IP Addresses that are reserved by a particular user
+ **/
+exports.getUsersLeases = function(req, res) {
+  var user = req.params.user;
+
+  db.collection('ipAddresses', function(err, collection) {
+    collection.find({'reservedBy': user}).toArray(function(err, leases) {
+      res.send(leases);
+    });
+  });
 }
-exports.updateUser = function(req, res) {
-  res.send('ok');
+/**
+ * addLease()
+ * Add a lease to a certain IP Address
+ **/
+exports.addLease = function(req, res) {
+  var id = req.params.id;
+  var lease = req.body;
+  lease['reserved'] = true;
+
+  if(lease.reservedBy && lease.location && lease.hostname && lease.machineType) {
+    db.collection('ipAddresses', function(err, collection) {
+      collection.update({'_id': BSON.ObjectID(id)}, {$set:lease}, {safe: true}, function(err, result){
+        if(err) {
+          res.send({'error': err});
+        } else {
+          res.send(result);
+        }
+      });
+    });
+  } else {
+    res.send({"error": "You must specify all the reservation details"});
+  }
 }
-exports.removeUser = function(req, res) {
-  res.send('ok');
+/**
+ * removeLease()
+ * Remove a lease from an IP Address
+ **/
+exports.removeLease = function(req, res) {
+  var id = req.params.id;
+  var lease = {
+    "reservedBy": "",
+    "location": "",
+    "hostname": "",
+    "machineType" :""
+  };
+
+  db.collection('ipAddresses', function(err, collection) {
+    collection.update({'_id': BSON.ObjectID(id)}, {$set: {"reserved": false}, $unset:lease}, {safe: true}, function(err, result) {
+      if(err) {
+        res.send({'error': err});
+      } else {
+        res.send(result);
+      }
+    });
+  });
 }
 
-exports.getLeases = function(req, res) {
-  res.send('ok');
+/**
+ * getUsers()
+ * Get all the users
+ **/
+exports.getUsers = function(req, res) {
+  db.collection('users', function(err, collection) {
+    collection.find().toArray(function(err, users) {
+      res.send(users);
+    });
+  });
 }
-exports.getUsersLeases = function(req, res) {
-  res.send('ok');
+/**
+ * addUser()
+ * Add a new user
+ **/
+exports.addUser = function(req, res) {
+  var username = req.body.username;
+  var password = req.body.password;
+  var name = req.body.name;
+
+  if(username && password && name) {
+    var user = {
+      "username": username,
+      "password": password,     // TODO: Fix this sha1(password)
+      "name": name,
+      "accountType": "Standard"
+    };
+
+    db.collection('users', function(err, collection) {
+      collection.insert(user, {safe: true}, function(err, result) {
+        if(err) {
+          res.send({'error': err});
+        } else {
+          res.send(result);
+        }
+      });
+    });
+  } else {
+    res.send({"error": "You must specify all the user details"});
+  }
 }
-exports.addLease = function(req, res) {
-  res.send('ok');
+/**
+ * updateUser()
+ * Update a user's password and name
+ **/
+exports.updateUser = function(req, res) {
+  var id = req.params.id;
+  var password = req.body.password;
+  var name = req.body.name;
+
+  if(password && name) {
+    var user = {
+      "password": password,       // TODO: Fix this sha1(password)
+      "name": name
+    }
+
+    db.collection('users', function(err, collection) {
+      collection.update({'_id': BSON.ObjectID(id)}, {$set:user}, {safe: true}, function(err, result) {
+        if(err) {
+          res.send({'error': err});
+        } else {
+          res.send(result);
+        }
+      });
+    });
+  } else {
+    res.send({"error": "You must specify all the user details"});
+  }
 }
-exports.removeLease = function(req, res) {
-  res.send('ok');
+/**
+ * removeUser()
+ * Remove a user
+ **/
+exports.removeUser = function(req, res) {
+  var id = req.params.id;
+
+  db.collection('users', function(err, collection) {
+    collection.remove({'_id': BSON.ObjectID(id)}, {safe: true}, function(err, result) {
+      if(err) {
+        res.send({'error': err});
+      } else {
+        res.send(result);
+      }
+    });
+  });
 }

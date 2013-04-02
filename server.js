@@ -19,15 +19,15 @@ app.get('/ipAddresses/:id', ipMan.getSingleIP);
 app.post('/ipAddresses', ipMan.addIP);
 app.delete('/ipAddresses/:id', ipMan.removeIP);
 
+app.get('/leases', ipMan.getLeases);
+app.get('/leases/:user', ipMan.getUsersLeases);
+app.post('/leases/:id', ipMan.addLease);
+app.delete('/leases/:id', ipMan.removeLease);
+
 app.get('/users', ipMan.getUsers);
 app.post('/users', ipMan.addUser);
 app.put('/users/:id', ipMan.updateUser);
 app.delete('/users/:id', ipMan.removeUser);
-
-app.get('/leases', ipMan.getLeases);
-app.get('/leases/:id', ipMan.getUsersLeases);
-app.post('/leases', ipMan.addLease);
-app.delete('/leases/:id', ipMan.removeLease);
  
 app.listen(8080);
 console.log('Listening on port 8080...');
