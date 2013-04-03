@@ -11,23 +11,23 @@ app.configure(function () {
 });
 
 
-app.get('/subnets', ipMan.getSubnets);
+app.get('/api/subnets', ipMan.getSubnets);
 
-app.get('/ipAddresses', ipMan.getIPs);
-app.get('/availableIPAddresses', ipMan.getAvailableIPs);
-app.get('/ipAddresses/:id', ipMan.getSingleIP);
-app.post('/ipAddresses', ipMan.addIP);
-app.delete('/ipAddresses/:id', ipMan.removeIP);
+app.get('/api/ipAddresses', ipMan.getIPs);
+app.get('/api/availableIPAddresses', ipMan.getAvailableIPs);
+app.get('/api/ipAddresses/:id', ipMan.getSingleIP);
+app.post('/api/ipAddresses', ipMan.addIP);
+app.delete('/api/ipAddresses/:id', ipMan.removeIP);
 
-app.get('/leases', ipMan.getLeases);
-app.get('/leases/:user', ipMan.getUsersLeases);
-app.post('/leases/:id', ipMan.addLease);
-app.delete('/leases/:id', ipMan.removeLease);
+app.get('/api/leases', ipMan.getLeases);
+app.get('/api/leases/:user', ipMan.getUsersLeases);
+app.post('/api/leases/:id', ipMan.addLease);
+app.delete('/api/leases/:id', ipMan.removeLease);
 
-app.get('/users', ipMan.getUsers);
-app.post('/users', ipMan.addUser);
-app.put('/users/:id', ipMan.updateUser);
-app.delete('/users/:id', ipMan.removeUser);
+app.get('/api/users', ipMan.getUsers);
+app.post('/api/users', ipMan.addUser);
+app.put('/api/users/:id', ipMan.updateUser);
+app.delete('/api/users/:id', ipMan.removeUser);
  
 app.listen(8080);
 console.log('Listening on port 8080...');
