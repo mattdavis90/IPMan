@@ -1,0 +1,13 @@
+{
+  "name": "IPMan",
+  "description": "A tool for managing IP address leases",
+  "version": "0.1.0",
+  "author": {
+    "name": "Matt Davis",
+    "email": "mattdavis90@googlemail.com"
+  },
+  "dependencies": {
+    "express": "3.x",
+    "mongodb": "1.2.x"
+  }
+}
