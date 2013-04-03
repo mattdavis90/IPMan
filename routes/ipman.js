@@ -2,6 +2,7 @@
  * Includes and connect to DB
  **/
 var mongo = require('mongodb');
+var crypto = require('crypto');
 // Get pointers to some useful types
 var Server = mongo.Server;
 var DB = mongo.Db;
@@ -192,9 +193,12 @@ exports.addUser = function(req, res) {
   var name = req.body.name;
 
   if(username && password && name) {
+    var passwordHash = crypto.createHash('sha1');
+    passwordHash.update(password);
+
     var user = {
       "username": username,
-      "password": password,     // TODO: Fix this sha1(password)
+      "password": passwordHash.digest('hex'),
       "name": name,
       "accountType": "Standard"
     };
@@ -222,8 +226,11 @@ exports.updateUser = function(req, res) {
   var name = req.body.name;
 
   if(password && name) {
+    var passwordHash = crypto.createHash('sha1');
+    passwordHash.update(password);
+
     var user = {
-      "password": password,       // TODO: Fix this sha1(password)
+      "password": passwordHash.digest('hex'),
       "name": name
     }
 
