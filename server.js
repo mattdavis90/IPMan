@@ -23,7 +23,6 @@ app.post('/api/ipAddresses', rootAuth, ipMan.addIP);
 app.delete('/api/ipAddresses/:id', rootAuth, ipMan.removeIP);
 
 app.get('/api/leases', standardAuth, ipMan.getLeases);
-app.get('/api/leases/:user', standardAuth, ipMan.getUsersLeases);
 app.post('/api/leases/:id', standardAuth, ipMan.addLease);
 app.delete('/api/leases/:id', standardAuth, ipMan.removeLease);
 

@@ -1,5 +1,7 @@
 // TODO: Users should only be able to remove leases that they own
 // TODO: Users should only be able to modify their own password/name
+// TODO: getLeases should only return leases for the currently logged in user
+// TODO: addLease should automatically use the logged in user
 
 /**
  * Includes and connect to DB
@@ -99,19 +101,6 @@ exports.removeIP = function(req, res) {
 exports.getLeases = function(req, res) {
   db.collection('ipAddresses', function(err, collection) {
     collection.find({'reserved': true}).toArray(function(err, leases) {
-      res.send(leases);
-    });
-  });
-}
-/**
- * getUsersLeases()
- * Get all the IP Addresses that are reserved by a particular user
- **/
-exports.getUsersLeases = function(req, res) {
-  var user = req.params.user;
-
-  db.collection('ipAddresses', function(err, collection) {
-    collection.find({'reservedBy': user}).toArray(function(err, leases) {
       res.send(leases);
     });
   });

@@ -1,10 +1,10 @@
 window.UnderConstructionView = Backbone.View.extend({
   el: '#content',
 
-  initialize:function () {
+  initialize: function () {
   },
 
-  render:function () {
+  render: function () {
     var html = _.template(this.template, {header: "Under Construction"});
     this.$el.html(html);
 

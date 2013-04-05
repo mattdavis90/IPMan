@@ -1,0 +1,28 @@
+<div class="hero-unit">
+  <h1 class="page-header">My Leases</h1>
+  <hr />
+  <div class="well">
+    <table class="table striped">
+      <thead>
+        <tr>
+          <th>IP Address</th>
+          <th>Hostname</th>
+          <th>Location</th>
+          <th>Machine Type</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% _.each(leases, function(lease) { %>
+          <tr>
+            <td><%= lease.get("ipAddress") %></td>
+            <td><%= lease.get("hostname") %></td>
+            <td><%= lease.get("location") %></td>
+            <td><%= lease.get("machineType") %></td>
+            <td><a class="btn btn-danger" href="">Release</a></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </ul>
+  </div>
+</div>
