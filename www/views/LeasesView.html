@@ -9,6 +9,9 @@
     <table class="table striped">
       <thead>
         <tr>
+          <% if(session.get("username") == "root") { %>
+          <th>Username</th>
+          <% } %>
           <th>IP Address</th>
           <th>Hostname</th>
           <th>Location</th>
@@ -19,6 +22,9 @@
       <tbody>
         <% _.each(leases, function(lease) { %>
           <tr>
+            <% if(session.get("username") == "root") { %>
+            <td><%= lease.get("reservedBy") %></td>
+            <% } %>
             <td><%= lease.get("ipAddress") %></td>
             <td><%= lease.get("hostname") %></td>
             <td><%= lease.get("location") %></td>

@@ -40,7 +40,7 @@ window.views = [{
   reference  : "leasesView",
   name       : "LeasesView",
   showInMenu : true,
-  menuText   : "Leases",
+  menuText   : "Current Leases",
   menuLink   : "#/leases",
   menuClass  : "leases-menu",
   accessLevel: 1
