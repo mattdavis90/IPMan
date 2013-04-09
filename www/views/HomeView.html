@@ -1,0 +1,28 @@
+<div class="hero-unit">
+  <% if(_.isEmpty(session)) { %>
+
+  <h2>Please Login</h2>
+  <hr />
+  <div class="well">
+    <div class="alert alert-error login-error" style="display:none"></div>
+    <form class="login-form">
+      <legend>Login</legend>
+      <label for="username">Username</label>
+      <input type="text" name="username" />
+      <label for="password">Password</label>
+      <input type="password" name="password" />
+      <hr />
+      <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+  </div>
+
+  <% } else { %>
+
+  <h2>Welcome <%= session.username %></h2>
+  <hr />
+  <div class="well">
+    <p>Some useful text goes here</p>
+  </div>
+
+  <% } %>
+</div>

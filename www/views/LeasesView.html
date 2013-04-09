@@ -1,5 +1,9 @@
 <div class="hero-unit">
-  <h1 class="page-header">My Leases</h1>
+  <% if(session.get("username") == "root") { %>
+  <h2>All Leases</h2>
+  <% } else { %>
+  <h2>Your Leases</h2>
+  <% } %>
   <hr />
   <div class="well">
     <table class="table striped">
@@ -19,7 +23,7 @@
             <td><%= lease.get("hostname") %></td>
             <td><%= lease.get("location") %></td>
             <td><%= lease.get("machineType") %></td>
-            <td><a class="btn btn-danger" href="">Release</a></td>
+            <td><button class="btn btn-danger btn-release" value="<%= lease.get("_id") %>">Release</button></td>
           </tr>
         <% }); %>
       </tbody>

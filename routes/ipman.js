@@ -1,8 +1,3 @@
-// TODO: Users should only be able to remove leases that they own
-// TODO: Users should only be able to modify their own password/name
-// TODO: getLeases should only return leases for the currently logged in user
-// TODO: addLease should automatically use the logged in user
-
 /**
  * Includes and connect to DB
  **/
@@ -71,7 +66,7 @@ exports.addIP = function(req, res) {
       if(err) {
         res.send({'error': err});
       } else {
-        res.send(result);
+        res.send({});
       }
     });
   });
@@ -88,7 +83,7 @@ exports.removeIP = function(req, res) {
       if(err) {
         res.send({'error': err});
       } else {
-        res.send(result);
+        res.send({});
       }
     });
   });
@@ -96,11 +91,20 @@ exports.removeIP = function(req, res) {
 
 /**
  * getLeases()
- * Get all the IP Addresses that are reserved
+ * Get all the leases (for the current user if not root)
  **/
 exports.getLeases = function(req, res) {
+  var username = req.session.user.username;
+  var search = {
+    'reserved': true
+  }
+
+  if(username != 'root') {
+    search['reservedBy'] = username;
+  }
+
   db.collection('ipAddresses', function(err, collection) {
-    collection.find({'reserved': true}).toArray(function(err, leases) {
+    collection.find(search).toArray(function(err, leases) {
       res.send(leases);
     });
   });
@@ -110,9 +114,13 @@ exports.getLeases = function(req, res) {
  * Add a lease to a certain IP Address
  **/
 exports.addLease = function(req, res) {
-  var id = req.params.id;
+  var id = req.body.id;
+  var username = req.session.user.username;
   var lease = req.body;
+
+  delete(lease.id);
   lease['reserved'] = true;
+  lease['reservedBy'] = username;
 
   if(lease.reservedBy && lease.location && lease.hostname && lease.machineType) {
     db.collection('ipAddresses', function(err, collection) {
@@ -120,7 +128,7 @@ exports.addLease = function(req, res) {
         if(err) {
           res.send({'error': err});
         } else {
-          res.send(result);
+          res.send({});
         }
       });
     });
@@ -134,19 +142,27 @@ exports.addLease = function(req, res) {
  **/
 exports.removeLease = function(req, res) {
   var id = req.params.id;
+  var username = req.session.user.username;
   var lease = {
     "reservedBy": "",
     "location": "",
     "hostname": "",
     "machineType" :""
   };
+  var search = {
+    '_id': BSON.ObjectID(id)
+  };
+
+  if(username != 'root') {
+    search['reservedBy'] = username;
+  }
 
   db.collection('ipAddresses', function(err, collection) {
-    collection.update({'_id': BSON.ObjectID(id)}, {$set: {"reserved": false}, $unset:lease}, {safe: true}, function(err, result) {
+    collection.update(search, {$set: {"reserved": false}, $unset:lease}, {safe: true}, function(err, result) {
       if(err) {
         res.send({'error': err});
       } else {
-        res.send(result);
+        res.send({});
       }
     });
   });
@@ -180,7 +196,7 @@ exports.addUser = function(req, res) {
       "username": username,
       "password": passwordHash.digest('hex'),
       "name": name,
-      "accountType": "Standard"
+      "accessLevel": 1
     };
 
     db.collection('users', function(err, collection) {
@@ -188,7 +204,7 @@ exports.addUser = function(req, res) {
         if(err) {
           res.send({'error': err});
         } else {
-          res.send(result);
+          res.send({});
         }
       });
     });
@@ -201,7 +217,7 @@ exports.addUser = function(req, res) {
  * Update a user's password and name
  **/
 exports.updateUser = function(req, res) {
-  var id = req.params.id;
+  var id = req.session.user.id;
   var password = req.body.password;
   var name = req.body.name;
 
@@ -219,7 +235,7 @@ exports.updateUser = function(req, res) {
         if(err) {
           res.send({'error': err});
         } else {
-          res.send(result);
+          res.send({});
         }
       });
     });
@@ -239,7 +255,7 @@ exports.removeUser = function(req, res) {
       if(err) {
         res.send({'error': err});
       } else {
-        res.send(result);
+        res.send({});
       }
     });
   });

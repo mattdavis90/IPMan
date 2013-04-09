@@ -1,3 +1,5 @@
 window.Lease = Backbone.Model.extend({
-  urlRoot: "/api/leases"
+  urlRoot: "/api/leases",
+
+  idAttribute: "_id"
 });

@@ -1,3 +1,5 @@
 window.Leases = Backbone.Collection.extend({
-  url: "/api/leases"
+  url: "/api/leases",
+
+  model: Lease
 });

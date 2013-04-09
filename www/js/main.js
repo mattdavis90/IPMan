@@ -1,36 +1,57 @@
 window.Router = Backbone.Router.extend({
   routes: {
-    "": "underConstruction",
-    "myLeases": "myLeases"
+    "": "home",
+    "leases": "leases"
   },
   
   initialize: function () {
-    this.headerView = new HeaderView();
-    this.footerView = new FooterView();
-    this.underConstructionView = new UnderConstructionView();
-    this.myLeasesView = new MyLeasesView();
-
-    this.headerView.render();
-    this.footerView.render();
-    
-    $('body').click(function () {
-      $('.dropdown').removeClass("open");
-    });
+    headerView.render();
+    footerView.render();
   },
 
-  underConstruction: function () {
-    this.underConstructionView.render();
-    this.headerView.select('home-menu');
+  home: function () {
+    homeView.render();
   },
 
-  myLeases: function() {
-    this.myLeasesView.render();
-    this.headerView.select('myleases-menu');
+  leases: function() {
+    leasesView.render();
   }
 });
 
-utils.loadViews(["HeaderView", "FooterView", "UnderConstructionView", "MyLeasesView"], function () {
-  app = new Router();
-  
-  Backbone.history.start();
+window.views = [{
+  reference  : "headerView",
+  name       : "HeaderView",
+  showInMenu : false,
+  accessLevel: 0
+}, {
+  reference  : "footerView",
+  name       : "FooterView",
+  showInMenu : false,
+  accessLevel: 0
+}, {
+  reference  : "homeView",
+  name       : "HomeView",
+  showInMenu : true,
+  menuText   : "Home",
+  menuLink   : "#",
+  menuClass  : "home-menu",
+  accessLevel: 0
+}, {
+  reference  : "leasesView",
+  name       : "LeasesView",
+  showInMenu : true,
+  menuText   : "Leases",
+  menuLink   : "#/leases",
+  menuClass  : "leases-menu",
+  accessLevel: 1
+}];
+
+window.session = new Session();
+
+utils.loadViews(views, function () {
+  utils.refreshSession(function() {
+    window.router = new Router();
+
+    Backbone.history.start();
+  });
 });

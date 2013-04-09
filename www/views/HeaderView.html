@@ -5,9 +5,17 @@
 
       <div class="nav-collapse">
         <ul class="nav">
-          <li class="home-menu active"><a href="#">Home</a></li>
-          <li class="myleases-menu"><a href="#/myLeases">My Leases</a></li>
+          <% _.each(views, function(view) { %>
+            <% if(view.showInMenu && (view.accessLevel <= accessLevel)) { %>
+              <li class="<%= view.menuClass %>"><a href="<%= view.menuLink %>"><%= view.menuText %></a></li>
+            <% } %>
+          <% }); %>
         </ul>
+        <% if(loggedIn) { %>
+        <div class="nav pull-right">
+          <button class="btn btn-danger btn-logout">Logout</button>
+        </div>
+        <% } %>
       </div>
     </div>
   </div>
