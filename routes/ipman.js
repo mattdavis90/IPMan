@@ -36,7 +36,7 @@ exports.getIPs = function(req, res) {
  **/
 exports.getAvailableIPs = function(req, res) {
   db.collection('ipAddresses', function(err, collection) {
-    collection.find({'reserved': false}).toArray(function(err, ips) {
+    collection.find({'reserved': false}).sort({ipAddress: 1}).toArray(function(err, ips) {
       res.send(ips);
     });
   });
@@ -104,7 +104,7 @@ exports.getLeases = function(req, res) {
   }
 
   db.collection('ipAddresses', function(err, collection) {
-    collection.find(search).toArray(function(err, leases) {
+    collection.find(search).sort({ipAddress: 1}).toArray(function(err, leases) {
       res.send(leases);
     });
   });

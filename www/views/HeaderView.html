@@ -7,7 +7,11 @@
         <ul class="nav">
           <% _.each(views, function(view) { %>
             <% if(view.showInMenu && (view.accessLevel <= accessLevel)) { %>
-              <li class="<%= view.menuClass %>"><a href="<%= view.menuLink %>"><%= view.menuText %></a></li>
+              <li class="<%= view.menuClass %>"><a href="<%= view.menuLink %>">
+              <% if(view.menuIcon) { %>
+                <i class="<%= view.menuIcon %> icon-white"></i>
+              <% } %>
+              <%= view.menuText %></a></li>
             <% } %>
           <% }); %>
         </ul>

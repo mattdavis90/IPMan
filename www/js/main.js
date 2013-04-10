@@ -35,14 +35,16 @@ window.views = [{
   menuText   : "Home",
   menuLink   : "#",
   menuClass  : "home-menu",
+  menuIcon   : "icon-home",
   accessLevel: 0
 }, {
   reference  : "leasesView",
   name       : "LeasesView",
   showInMenu : true,
-  menuText   : "Current Leases",
+  menuText   : "Leases",
   menuLink   : "#/leases",
   menuClass  : "leases-menu",
+  menuIcon   : "icon-list",
   accessLevel: 1
 }];
 

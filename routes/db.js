@@ -15,6 +15,11 @@ db = new DB('ipMan', server, {safe: true});
 db.open(function(err, db) {
   if(!err) {
     console.log("Connected to the database");
+    db.ensureIndex("ipAddresses", ["ipAddress", "subnet"], function(err, index) {
+      if(!err) {
+        console.log("Successfully set index: " + index);
+      }
+    });
   }
 });
 

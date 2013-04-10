@@ -1,12 +1,54 @@
 <div class="hero-unit">
-  <% if(session.get("username") == "root") { %>
-  <h2>All Leases</h2>
-  <% } else { %>
-  <h2>Your Leases</h2>
-  <% } %>
-  <hr />
   <div class="well">
-    <table class="table striped">
+    <h2>New Lease</h2>
+    <hr />
+    <div class="alert alert-error lease-error" style="display:none"></div>
+    <form class="lease-form form-horizontal">
+      <div class="control-group">
+        <label class="control-label" for="ipAddress">IP Address</label>
+        <div class="controls">
+          <select>
+            <% _.each(ipAddresses, function(ipAddress) { %>
+            <option value="<%= ipAddress.get("_id") %>"><%= ipAddress.get("subnet") %> - <%= ipAddress.get("ipAddress") %></option>
+            <% }); %>
+          </select>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="hostname">Hostname</label>
+        <div class="controls">
+          <input type="text" name="hostname" placeholder="Hostname" />
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="location">Location</label>
+        <div class="controls">
+          <input type="text" name="location" placeholder="Location" />
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="machineType">Machine Type</label>
+        <div class="controls">
+          <select>
+            <option value="Physical">Physical</option>
+            <option value="VM">VM</option>
+          </select>
+        </div>
+      </div>
+      <hr />
+      <div class="controls">
+        <button type="submit" class="btn btn-primary">Create Lease</button>
+      </div>
+    </form>
+  </div>
+  <div class="well">
+    <% if(session.get("username") == "root") { %>
+    <h2>All Leases</h2>
+    <% } else { %>
+    <h2>Your Leases</h2>
+    <% } %>
+    <hr />
+    <table class="table">
       <thead>
         <tr>
           <% if(session.get("username") == "root") { %>
