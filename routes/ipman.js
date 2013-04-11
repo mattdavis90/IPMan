@@ -14,7 +14,7 @@ var BSON = DB.getBSON();
 exports.getSubnets = function(req, res) {
   db.collection('ipAddresses', function(err, collection) {
     collection.distinct('subnet', function(err, subnets) {
-      res.send(subnets);
+      res.send({subnets: subnets});
     });
   });
 }
