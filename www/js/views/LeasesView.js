@@ -29,7 +29,7 @@ window.LeasesView = Backbone.View.extend({
                     ipAddresses  : ipAddresses.models,
                     leases       : leases.models
                   });
-                  
+
                   self.$el.html(html);
                 }
               });
@@ -41,8 +41,33 @@ window.LeasesView = Backbone.View.extend({
   },
 
   events: {
-    "click .btn-release"   : "release",
-    "change #subnet-select": "updateIPs"
+    "submit .lease-form"   : "newLease",
+    "change #subnet-select": "updateIPs",
+    "click .btn-release"   : "release"
+  },
+
+  newLease: function(event) {
+    var self = this;
+    
+    utils.formToJSON(event.currentTarget, function(lease) {
+      var newLease = new Lease();
+
+      newLease.save(lease, {
+        success: function(model, response, options) {
+          if(response.error) {
+            self.showError(response.error);
+          } else {
+            self.render();
+          }
+        }, 
+
+        error: function(model, xhr, options) {
+          self.showError("Could not contact server");
+        }
+      });
+
+      event.preventDefault();
+    });
   },
 
   updateIPs: function(event) {
@@ -61,5 +86,9 @@ window.LeasesView = Backbone.View.extend({
         self.render();
       }
     });
+  },
+  
+  showError: function(error) {
+    $('.lease-error').html(error).show();
   }
 });

@@ -21,7 +21,7 @@
       <div class="control-group">
         <label class="control-label" for="ipAddress">IP Address</label>
         <div class="controls">
-          <select>
+          <select name="id">
             <% _.each(ipAddresses, function(ipAddress) { %>
             <% if(ipAddress.get("subnet") == currentSubnet) { %>
             <option value="<%= ipAddress.get("_id") %>"><%= ipAddress.get("ipAddress") %></option>
@@ -45,7 +45,7 @@
       <div class="control-group">
         <label class="control-label" for="machineType">Machine Type</label>
         <div class="controls">
-          <select>
+          <select name="machineType">
             <option value="Physical">Physical</option>
             <option value="VM">VM</option>
           </select>

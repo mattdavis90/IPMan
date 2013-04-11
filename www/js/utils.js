@@ -39,5 +39,15 @@ window.utils = {
     } else {
       callback();
     }
+  },
+
+  formToJSON: function(form, callback) {
+    var obj = {};
+    
+    $(form).find("[name]").each(function(i, el) {
+      obj[$(el).attr("name")] = $(el).val();
+    });
+
+    callback(obj);
   }
 };
