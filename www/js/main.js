@@ -1,39 +1,19 @@
-window.Router = Backbone.Router.extend({
-  routes: {
-    "": "home",
-    "leases": "leases"
-  },
-  
-  initialize: function () {
-    headerView.render();
-    footerView.render();
-  },
-
-  home: function () {
-    homeView.render();
-  },
-
-  leases: function() {
-    leasesView.render();
-  }
-});
-
 window.views = [{
   reference  : "headerView",
   name       : "HeaderView",
-  showInMenu : false,
+  autoLoad   : true,
   accessLevel: 0
 }, {
   reference  : "footerView",
   name       : "FooterView",
-  showInMenu : false,
+  autoLoad   : true,
   accessLevel: 0
 }, {
   reference  : "homeView",
   name       : "HomeView",
   showInMenu : true,
   menuText   : "Home",
-  menuLink   : "#",
+  menuLink   : "",
   menuClass  : "home-menu",
   menuIcon   : "icon-home",
   accessLevel: 0
@@ -42,7 +22,7 @@ window.views = [{
   name       : "LeasesView",
   showInMenu : true,
   menuText   : "Leases",
-  menuLink   : "#/leases",
+  menuLink   : "leases",
   menuClass  : "leases-menu",
   menuIcon   : "icon-list",
   accessLevel: 1
@@ -52,7 +32,7 @@ window.session = new Session();
 
 utils.loadViews(views, function () {
   utils.refreshSession(function() {
-    window.router = new Router();
+    window.router = utils.createRouter(views);
 
     Backbone.history.start();
 

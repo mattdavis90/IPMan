@@ -37,6 +37,33 @@ window.utils = {
     });
   },
 
+  createRouter: function(views) {
+    // Create a Backbone Router
+    var Router = Backbone.Router.extend({
+      initialize: function(views) {
+        // Render all autoload views
+        $.each(views, function(index, view) {
+          if(view.autoLoad) {
+            window[view.reference].render();
+          }
+        });
+      }
+    });
+
+    var router = new Router(views);
+
+    // Create routes for views
+    $.each(views, function(index, view) {
+      if(view.showInMenu) {
+        router.route(view.menuLink, "", function() {
+          window[view.reference].render();
+        });
+      }
+    });
+
+    return router;
+  },
+
   checkAuth: function(requiredAccessLevel, callback) {
     var sessionAccessLevel = session.get("accessLevel") || 0;
 
