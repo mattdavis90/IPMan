@@ -54,8 +54,8 @@ window.utils = {
 
     // Create routes for views
     $.each(views, function(index, view) {
-      if(view.showInMenu) {
-        router.route(view.menuLink, "", function() {
+      if(view.route !== undefined) {
+        router.route(view.route, "", function() {
           window[view.reference].render();
         });
       }

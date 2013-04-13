@@ -7,7 +7,7 @@
         <ul class="nav">
           <% _.each(views, function(view) { %>
             <% if(view.showInMenu && (view.accessLevel <= accessLevel)) { %>
-              <li class="<%= view.menuClass %>"><a href="#/<%= view.menuLink %>">
+              <li class="<%= view.menuClass %>"><a href="#/<%= view.route %>">
               <% if(view.menuIcon) { %>
                 <i class="<%= view.menuIcon %> icon-white"></i>
               <% } %>

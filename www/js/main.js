@@ -11,18 +11,18 @@ window.views = [{
 }, {
   reference  : "homeView",
   name       : "HomeView",
+  route      : "",
   showInMenu : true,
   menuText   : "Home",
-  menuLink   : "",
   menuClass  : "home-menu",
   menuIcon   : "icon-home",
   accessLevel: 0
 }, {
   reference  : "leasesView",
   name       : "LeasesView",
+  route      : "leases",
   showInMenu : true,
   menuText   : "Leases",
-  menuLink   : "leases",
   menuClass  : "leases-menu",
   menuIcon   : "icon-list",
   accessLevel: 1
