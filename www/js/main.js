@@ -55,5 +55,7 @@ utils.loadViews(views, function () {
     window.router = new Router();
 
     Backbone.history.start();
+
+    utils.hideLoading();
   });
 });

@@ -1,5 +1,8 @@
 window.utils = {
   loadViews: function(views, callback) {
+    var self = this;
+    var count = views.length;
+    var current = 0;
     var deferreds = [];
 
     $.each(views, function(index, view) {
@@ -11,6 +14,9 @@ window.utils = {
           window[view.reference] = new window[view.name]();
           // Set the view's properties
           $.extend(window[view.reference], view);
+          // Update the progress bar
+          var progress = (++current) / count * 100;
+          self.updateLoading(progress);
         }, 'html'));
       } else {
         console.log(view.name + " wasn't loaded. Did you include the js file?");
@@ -49,5 +55,13 @@ window.utils = {
     });
 
     callback(obj);
+  },
+
+  updateLoading: function(progress) {
+    $('#loading .bar').width(progress + "%");
+  },
+
+  hideLoading: function() {
+    $('#loading').hide();
   }
 };

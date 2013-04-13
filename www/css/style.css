@@ -7,3 +7,32 @@ body, html {
   height: 100%;
   width: 100%;
 }
+
+#loading {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/**
+ * Allows unknown height content to be centered vertically
+ **/
+.holder {
+  text-align: center;
+}
+
+.holder:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em; /* Adjusts for spacing */
+}
+
+.centered {
+  display: inline-block;
+  vertical-align: middle;
+  width: 300px;
+}
