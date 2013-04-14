@@ -1,9 +1,7 @@
-// TODO: Look at a config.js file to determine whether to use LDAP for user auth
-// TODO: Use the database to authenticate users
-
 /**
  * Includes and connect to DB
  **/
+var crypto = require('crypto');
 var DB = require('./db');
 // Get pointers to some useful types
 var db = DB.getDB();
@@ -13,17 +11,25 @@ exports.login = function(req, res) {
   var password = req.body.password;
 
   if(username && password) {
-    if(password == "password") {
-      req.session.user = {
-        userId: 0,
-        username: username,
-        name: "fullname here",
-        accessLevel: (username == "root" ? 2 : 1)
-      };
-      res.send(req.session.user);
-    } else {
-      res.send({"error": "Incorrect username or password"});
-    }
+    var passwordHash = crypto.createHash('sha1');
+    passwordHash.update(password);
+    password = passwordHash.digest('hex');
+
+    db.collection('users', function(err, collection) {
+      collection.findOne({username: username, password: password}, function(err, user) {
+        if(user) {
+          req.session.user = {
+            userId: 0,
+            username: user.username,
+            name: user.name,
+            accessLevel: user.accessLevel
+          };
+          res.send(req.session.user);
+        } else {
+          res.send({"error": "Incorrect username or password"});
+        }
+      });
+    });
   } else {
     res.send({"error": "You must specify both a username and password"});
   }
