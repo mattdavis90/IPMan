@@ -7,7 +7,5 @@ window.FooterView = Backbone.View.extend({
   render: function () {
     var html = _.template(this.template, {});
     this.$el.html(html);
-
-    return this;
   }
 });

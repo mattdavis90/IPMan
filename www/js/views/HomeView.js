@@ -9,14 +9,10 @@ window.HomeView = Backbone.View.extend({
   },
 
   render: function () {
-    var self = this;
+    headerView.select(this.menuClass);
 
-    utils.checkAuth(this.accessLevel, function() {
-      headerView.select(self.menuClass);
-
-      var html = _.template(self.template, {header: "Home", session: session.toJSON()});
-      self.$el.html(html);
-    });
+    var html = _.template(this.template, {header: "Home", session: session.toJSON()});
+    this.$el.html(html);
   },
 
   events: {

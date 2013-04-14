@@ -5,9 +5,9 @@ window.UsersView = Backbone.View.extend({
   },
 
   render: function () {
+    headerView.select(self.menuClass);
+
     var html = _.template(this.template, {});
     this.$el.html(html);
-
-    return this;
   }
 });

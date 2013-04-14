@@ -17,8 +17,6 @@ window.HeaderView = Backbone.View.extend({
     if(this.selectedItem) {
       this.select(this.selectedItem);
     }
-
-    return this;
   },
 
   events: {

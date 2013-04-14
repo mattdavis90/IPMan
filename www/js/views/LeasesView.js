@@ -11,9 +11,9 @@ window.LeasesView = Backbone.View.extend({
   render: function() {
     var self = this;
 
-    headerView.select(self.menuClass);
+    headerView.select(this.menuClass);
     
-    self.subnets.fetch({
+    this.subnets.fetch({
       success: function(subnets){
         self.ipAddresses.fetch({
           success: function(ipAddresses) {
