@@ -44,9 +44,7 @@ window.utils = {
         // Render all autoload views
         $.each(views, function(index, view) {
           if(view.autoLoad) {
-            utils.checkAuth(view.accessLevel, function() {
-              window[view.reference].render();
-            });
+            utils.renderView(view);
           }
         });
       }
@@ -58,14 +56,22 @@ window.utils = {
     $.each(views, function(index, view) {
       if(view.route !== undefined) {
         router.route(view.route, "", function() {
-          utils.checkAuth(view.accessLevel, function() {
-            window[view.reference].render();
-          });
+          utils.renderView(view);
         });
       }
     });
 
     return router;
+  },
+
+  renderView: function(view) {
+    utils.checkAuth(view.accessLevel, function() {
+      if(window[view.reference]) {
+        window[view.reference].render();
+      } else {
+        console.error("Cannot render " + view.reference);
+      }
+    });
   },
 
   checkAuth: function(requiredAccessLevel, callback) {
