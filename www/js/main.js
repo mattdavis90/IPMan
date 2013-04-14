@@ -26,6 +26,15 @@ window.views = [{
   menuClass  : "leases-menu",
   menuIcon   : "icon-list",
   accessLevel: 1
+}, {
+  reference  : "usersView",
+  name       : "UsersView",
+  route      : "users",
+  showInMenu : true,
+  menuText   : "Users",
+  menuClass  : "users-menu",
+  menuIcon   : "icon-user",
+  accessLevel: 2
 }];
 
 window.session = new Session();
