@@ -19,7 +19,7 @@ window.utils = {
           self.updateLoading(progress);
         }, 'html'));
       } else {
-        console.log(view.name + " wasn't loaded. Did you include the js file?");
+        console.error(view.name + " wasn't loaded. Did you include the js file?");
       }
     });
 
@@ -44,7 +44,9 @@ window.utils = {
         // Render all autoload views
         $.each(views, function(index, view) {
           if(view.autoLoad) {
-            window[view.reference].render();
+            utils.checkAuth(view.accessLevel, function() {
+              window[view.reference].render();
+            });
           }
         });
       }
@@ -56,7 +58,9 @@ window.utils = {
     $.each(views, function(index, view) {
       if(view.route !== undefined) {
         router.route(view.route, "", function() {
-          window[view.reference].render();
+          utils.checkAuth(view.accessLevel, function() {
+            window[view.reference].render();
+          });
         });
       }
     });

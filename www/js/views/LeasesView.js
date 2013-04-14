@@ -11,32 +11,30 @@ window.LeasesView = Backbone.View.extend({
   render: function() {
     var self = this;
 
-    utils.checkAuth(this.accessLevel, function() {
-      headerView.select(self.menuClass);
-      
-      self.subnets.fetch({
-        success: function(subnets){
-          self.ipAddresses.fetch({
-            success: function(ipAddresses) {
-              self.leases.fetch({
-                success: function(leases) {
-                  subnets = subnets.models[0].get("subnets");
-                  if(self.currentSubnet == undefined) self.currentSubnet = subnets[0];
-                  
-                  var html = _.template(self.template, {
-                    subnets      : subnets,
-                    currentSubnet: self.currentSubnet,
-                    ipAddresses  : ipAddresses.models,
-                    leases       : leases.models
-                  });
+    headerView.select(self.menuClass);
+    
+    self.subnets.fetch({
+      success: function(subnets){
+        self.ipAddresses.fetch({
+          success: function(ipAddresses) {
+            self.leases.fetch({
+              success: function(leases) {
+                subnets = subnets.models[0].get("subnets");
+                if(self.currentSubnet == undefined) self.currentSubnet = subnets[0];
+                
+                var html = _.template(self.template, {
+                  subnets      : subnets,
+                  currentSubnet: self.currentSubnet,
+                  ipAddresses  : ipAddresses.models,
+                  leases       : leases.models
+                });
 
-                  self.$el.html(html);
-                }
-              });
-            }
-          });
-        }
-      });
+                self.$el.html(html);
+              }
+            });
+          }
+        });
+      }
     });
   },
 
