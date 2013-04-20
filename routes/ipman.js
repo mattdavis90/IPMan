@@ -174,7 +174,7 @@ exports.removeLease = function(req, res) {
  **/
 exports.getUsers = function(req, res) {
   db.collection('users', function(err, collection) {
-    collection.find().toArray(function(err, users) {
+    collection.find({"username": {$ne: "root"}}).toArray(function(err, users) {
       res.send(users);
     });
   });

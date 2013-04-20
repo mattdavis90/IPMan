@@ -1,5 +1,59 @@
 <div class="hero-unit">
   <div class="well">
-    
+    <h2>New User</h2>
+    <hr />
+    <div class="alert alert-error lease-error" style="display:none"></div>
+    <form class="lease-form form-horizontal">
+      <div class="control-group">
+        <label class="control-label" for="username">Username</label>
+        <div class="controls">
+          <input type="text" name="username" placeholder="Username" />
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="fullname">Fullname</label>
+        <div class="controls">
+          <input type="text" name="fullname" placeholder="Fullname" />
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="password">Password</label>
+        <div class="controls">
+          <input type="password" name="password" placeholder="Password" />
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="password-again">Passsword Again</label>
+        <div class="controls">
+          <input type="password" name="password-again" placeholder="Again" />
+        </div>
+      </div>
+      <hr />
+      <div class="controls">
+        <button type="submit" class="btn btn-primary">Create User</button>
+      </div>
+    </form>
+  </div>
+  <div class="well">
+    <h2>Users</h2>
+    <hr />
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Fullname</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% _.each(users, function(user) { %>
+          <tr>
+            <td><%= user.get("username") %></td>
+            <td><%= user.get("name") %></td>
+            <td><button class="btn btn-danger btn-release" value="<%= user.get("_id") %>">Delete</button></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
   </div>
 </div>

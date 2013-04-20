@@ -30,7 +30,7 @@ app.get('/api/leases', auth.checkStandard, ipMan.getLeases);
 app.post('/api/leases', auth.checkStandard, ipMan.addLease);
 app.delete('/api/leases/:id', auth.checkStandard, ipMan.removeLease);
 
-app.get('/api/users', auth.checkStandard, ipMan.getUsers);
+app.get('/api/users', auth.checkRoot, ipMan.getUsers);
 app.post('/api/users', auth.checkRoot, ipMan.addUser);
 app.put('/api/users', auth.checkStandard, ipMan.updateUser);
 app.delete('/api/users/:id', auth.checkRoot, ipMan.removeUser);
