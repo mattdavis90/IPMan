@@ -2,8 +2,8 @@ window.HeaderView = Backbone.View.extend({
   el: ".header",
 
   initialize: function () {
-    _.bindAll(this, "render");
-    session.bind('change', this.render);
+    session.bind('change', this.render, this);
+
     this.selectedItem = undefined;
   },
 
