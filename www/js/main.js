@@ -40,6 +40,15 @@ window.views = [{
   menuClass  : "users-menu",
   menuIcon   : "icon-user",
   accessLevel: 2
+}, {
+  reference  : "subnetsView",
+  name       : "SubnetsView",
+  route      : "subnets",
+  showInMenu : true,
+  menuText   : "Subnets",
+  menuClass  : "subnets-menu",
+  menuIcon   : "icon-wrench",
+  accessLevel: 2
 }];
 
 window.session = new Session();
