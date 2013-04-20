@@ -28,6 +28,18 @@ Edit the ipMan configuration to reflect your setup.
       "mongoDB"  : "ipMan"
     }
 
+Add root user account to the mongoDB.
+Edit the addUser.js file.
+
+    ...
+    var password = "password";
+    var name = "Root";
+    ...
+
+Add the user.
+
+    $ node addUser.js
+
 Run the server in node.
 
     $ node server.js
