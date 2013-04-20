@@ -4,7 +4,7 @@
       <a class="brand" href="#">IPMan</a>
       <ul class="nav">
         <% _.each(views, function(view) { %>
-          <% if(view.showInMenu && (view.accessLevel <= accessLevel)) { %>
+          <% if(view.showInMenu && (view.accessLevel <= user.accessLevel)) { %>
             <li class="<%= view.menuClass %>"><a href="#/<%= view.route %>">
             <% if(view.menuIcon) { %>
               <i class="<%= view.menuIcon %> icon-white"></i>
@@ -13,10 +13,20 @@
           <% } %>
         <% }); %>
       </ul>
-      <% if(loggedIn) { %>
-        <div class="nav pull-right">
-          <button class="btn btn-danger btn-logout">Logout</button>
-        </div>
+      <% if(user.loggedIn) { %>
+      <ul class="nav pull-right">
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <%= user.name %>
+            <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+            <li><a href="#">Your Account</a></li>
+            <li class="divider"></li>
+            <li><a href="#" id="logout">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
       <% } %>
     </div>
   </div>

@@ -9,8 +9,16 @@ window.HeaderView = Backbone.View.extend({
 
   render: function () {
     var accessLevel = session.get("accessLevel") || 0;
-    var loggedIn = session.get("username") ? true : false;
-    var html = _.template(this.template, {views: views, accessLevel: accessLevel, loggedIn: loggedIn});
+    var name = session.get("name");
+    var loggedIn = name ? true : false;
+
+    var user = {
+      accessLevel: accessLevel,
+      loggedIn: loggedIn,
+      name: name
+    }
+
+    var html = _.template(this.template, {views: views, user: user});
 
     this.$el.html(html);
 
@@ -20,7 +28,7 @@ window.HeaderView = Backbone.View.extend({
   },
 
   events: {
-    "click .btn-logout": "logout"
+    "click #logout": "logout"
   },
 
   select: function(menuItem) {
