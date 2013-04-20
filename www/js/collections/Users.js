@@ -1,3 +1,5 @@
 window.Users = Backbone.Collection.extend({
-  url: "/api/users"
+  url: "/api/users",
+
+  model: User
 });

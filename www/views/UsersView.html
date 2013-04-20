@@ -2,8 +2,8 @@
   <div class="well">
     <h2>New User</h2>
     <hr />
-    <div class="alert alert-error lease-error" style="display:none"></div>
-    <form class="lease-form form-horizontal">
+    <div class="alert alert-error user-error" style="display:none"></div>
+    <form class="user-form form-horizontal">
       <div class="control-group">
         <label class="control-label" for="username">Username</label>
         <div class="controls">
@@ -11,9 +11,9 @@
         </div>
       </div>
       <div class="control-group">
-        <label class="control-label" for="fullname">Fullname</label>
+        <label class="control-label" for="Name">Name</label>
         <div class="controls">
-          <input type="text" name="fullname" placeholder="Fullname" />
+          <input type="text" name="name" placeholder="Name" />
         </div>
       </div>
       <div class="control-group">
@@ -23,9 +23,9 @@
         </div>
       </div>
       <div class="control-group">
-        <label class="control-label" for="password-again">Passsword Again</label>
+        <label class="control-label" for="passwordAgain">Passsword Again</label>
         <div class="controls">
-          <input type="password" name="password-again" placeholder="Again" />
+          <input type="password" name="passwordAgain" placeholder="Password Again" />
         </div>
       </div>
       <hr />
@@ -50,7 +50,7 @@
           <tr>
             <td><%= user.get("username") %></td>
             <td><%= user.get("name") %></td>
-            <td><button class="btn btn-danger btn-release" value="<%= user.get("_id") %>">Delete</button></td>
+            <td><button class="btn btn-danger btn-delete" value="<%= user.get("_id") %>">Delete</button></td>
           </tr>
         <% }); %>
       </tbody>

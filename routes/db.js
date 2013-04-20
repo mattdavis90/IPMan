@@ -21,9 +21,18 @@ db.open(function(err, db) {
       if(!err) {
         db.ensureIndex("ipAddresses", ["ipAddress", "subnet"], function(err, index) {
           if(!err) {
-            console.log("Successfully set index: " + index);
+            console.log("Successfully set IPAddresses index: " + index);
+
+            db.ensureIndex("users", "username", {"unique": true}, function(err, index) {
+              if(!err) {
+                console.log("Successfully set Users index: " + index);
+              } else {
+                console.error("Could not set index. Exiting...");
+                process.exit(1);
+              }
+            });
           } else {
-            console.error("Could not set index. Exiting...");
+            console.error("Could not set index on IPAddresses. Exiting...");
             process.exit(1);
           }
         });
