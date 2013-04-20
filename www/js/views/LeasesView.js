@@ -79,9 +79,13 @@ window.LeasesView = Backbone.View.extend({
     var id = event.currentTarget.value;
     var lease = this.leases.get(id);
 
-    lease.destroy({
-      success: function(model, response) {
-        self.render();
+    yesNoView.show("Are you sure?", "Are you sure you want to remove this lease?", {
+      yes: function() {
+        lease.destroy({
+          success: function(model, response) {
+            self.render();
+          }
+        });
       }
     });
   },

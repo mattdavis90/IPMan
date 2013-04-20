@@ -9,6 +9,11 @@ window.views = [{
   autoLoad   : true,
   accessLevel: 0
 }, {
+  reference  : "yesNoView",
+  name       : "YesNoView",
+  autoLoad   : true,
+  accessLevel: 0
+}, {
   reference  : "homeView",
   name       : "HomeView",
   route      : "",
