@@ -33,7 +33,7 @@ app.delete('/api/leases/:id', auth.checkStandard, ipMan.removeLease);
 
 app.get('/api/users', auth.checkRoot, ipMan.getUsers);
 app.post('/api/users', auth.checkRoot, ipMan.addUser);
-app.put('/api/users', auth.checkStandard, ipMan.updateUser);
+app.put('/api/users/*', auth.checkStandard, ipMan.updateUser);
 app.delete('/api/users/:id', auth.checkRoot, ipMan.removeUser);
  
 app.listen(8080);

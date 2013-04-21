@@ -1,0 +1,37 @@
+<div class="hero-unit">
+  <div class="well">
+    <h2>New User</h2>
+    <hr />
+    <div class="alert alert-error edit-user-error" style="display:none"></div>
+    <form class="edit-user-form form-horizontal">
+      <div class="control-group">
+        <label class="control-label">Username</label>
+        <div class="controls">
+          <span class="help-block"><%= session.get("username") %></span>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="Name">Name</label>
+        <div class="controls">
+          <input type="text" name="name" placeholder="Name" value="<%= session.get("name") %>" />
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="password">Password</label>
+        <div class="controls">
+          <input type="password" name="password" placeholder="Password" />
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="passwordAgain">Passsword Again</label>
+        <div class="controls">
+          <input type="password" name="passwordAgain" placeholder="Password Again" />
+        </div>
+      </div>
+      <hr />
+      <div class="controls">
+        <button type="submit" class="btn btn-primary">Create User</button>
+      </div>
+    </form>
+  </div>
+</div>

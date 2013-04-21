@@ -32,6 +32,11 @@ window.views = [{
   menuIcon   : "icon-list",
   accessLevel: 1
 }, {
+  reference  : "editUserView",
+  name       : "EditUserView",
+  route      : "editUser",
+  accessLevel: 1
+}, {
   reference  : "usersView",
   name       : "UsersView",
   route      : "users",

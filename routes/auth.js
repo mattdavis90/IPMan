@@ -19,11 +19,12 @@ exports.login = function(req, res) {
       collection.findOne({username: username, password: password}, function(err, user) {
         if(user) {
           req.session.user = {
-            userId: 0,
+            id: user._id,
             username: user.username,
             name: user.name,
             accessLevel: user.accessLevel
           };
+
           res.send(req.session.user);
         } else {
           res.send({"error": "Incorrect username or password"});

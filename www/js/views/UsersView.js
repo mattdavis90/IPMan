@@ -46,9 +46,9 @@ window.UsersView = Backbone.View.extend({
           }
         }
       });
-
-      event.preventDefault();
     });
+
+    event.preventDefault();
   },
 
   removeUser: function(event) {

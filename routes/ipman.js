@@ -244,13 +244,16 @@ exports.updateUser = function(req, res) {
   var password = req.body.password;
   var name = req.body.name;
 
-  if(password && name) {
-    var passwordHash = crypto.createHash('sha1');
-    passwordHash.update(password);
-
+  if(name) {
     var user = {
-      "password": passwordHash.digest('hex'),
       "name": name
+    }
+
+    if(password) {
+      var passwordHash = crypto.createHash('sha1');
+      passwordHash.update(password);
+
+      user["password"] = passwordHash.digest('hex');
     }
 
     db.collection('users', function(err, collection) {
@@ -258,12 +261,14 @@ exports.updateUser = function(req, res) {
         if(err) {
           res.send({'error': err});
         } else {
+          req.session.user.name = name;
+
           res.send({});
         }
       });
     });
   } else {
-    res.send({"error": "You must specify all the user details"});
+    res.send({"error": "You must specify a name"});
   }
 }
 /**
