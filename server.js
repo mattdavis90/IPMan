@@ -19,6 +19,7 @@ app.get('/api/logout', auth.logout);
 app.get('/api/session', auth.session);
 
 app.get('/api/subnets', auth.checkStandard, ipMan.getSubnets);
+app.delete('/api/subnets/:subnet', auth.checkRoot, ipMan.removeSubnet);
 
 app.get('/api/ipAddresses', auth.checkStandard, ipMan.getIPs);
 app.get('/api/availableIPAddresses', auth.checkStandard, ipMan.getAvailableIPs);

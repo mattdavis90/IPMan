@@ -18,6 +18,23 @@ exports.getSubnets = function(req, res) {
     });
   });
 }
+/**
+ * removeSubnet()
+ * Remove the specified subnet
+ **/
+exports.removeSubnet = function(req, res) {
+  var subnet = req.params.subnet;
+
+  db.collection('ipAddresses', function(err, collection) {
+    collection.remove({'subnet': subnet}, {safe: true}, function(err, result) {
+      if(err) {
+        res.send({'error': err});
+      } else {
+        res.send({});
+      }
+    });
+  });
+}
 
 /**
  * getIPs()
@@ -108,7 +125,9 @@ exports.getLeases = function(req, res) {
   }
 
   db.collection('ipAddresses', function(err, collection) {
-    collection.find(search).sort({ipAddress: 1}).toArray(function(err, leases) {
+    collection.find(search).toArray(function(err, leases) {
+      leases = sortIPs(leases);
+      
       res.send(leases);
     });
   });

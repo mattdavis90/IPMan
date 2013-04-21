@@ -30,7 +30,9 @@ window.SubnetsView = Backbone.View.extend({
   },
 
   events: {
-    "submit .add-subnet-form": "createSubnet"
+    "submit .add-subnet-form": "createSubnet",
+    "submit .rem-subnet-form": "removeSubnet",
+    "click .btn-remove"      : "removeIP"
   },
 
   createSubnet: function(event) {
@@ -71,7 +73,7 @@ window.SubnetsView = Backbone.View.extend({
 
               var ipAddresses = new IPAddresses(ips);
               ipAddresses.saveAll(function() {
-                alert("woop");
+                self.render();
               });
             }
           });
@@ -82,6 +84,45 @@ window.SubnetsView = Backbone.View.extend({
     });
 
     event.preventDefault();
+  },
+
+  removeSubnet: function(event) {
+    var self = this;
+
+    utils.formToJSON(event.currentTarget, function(subnet) {
+      if(subnet.name) {
+        var subnetModel = new Subnet({subnet: subnet.name});
+
+        yesNoView.show("Are you sure?", "Are you sure you want to remove this subnet (" + subnet.name + ")?", {
+          yes: function() {
+            subnetModel.destroy({
+              success: function(model, response) {
+                self.render();
+              }
+            });
+          }
+        });
+      }
+    });
+
+    event.preventDefault();
+  },
+
+  removeIP: function(event) {
+    var self = this;
+
+    var id = event.currentTarget.value;
+    var ipAddress = this.ipAddresses.get(id);
+
+    yesNoView.show("Are you sure?", "Are you sure you want to remove this IP (" + ipAddress.get("ipAddress") + ")?", {
+      yes: function() {
+        ipAddress.destroy({
+          success: function(model, response) {
+            self.render();
+          }
+        });
+      }
+    });
   },
 
   isNumber: function(num) {
