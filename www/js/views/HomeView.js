@@ -2,16 +2,13 @@ window.HomeView = Backbone.View.extend({
   el: '#content',
 
   initialize: function () {
-    this.model = new Login();
-
-    _.bindAll(this, "render");
-    session.bind('change', this.render);
+    session.bind('change', this.render, this);
   },
 
   render: function () {
     headerView.select(this.menuClass);
 
-    var html = _.template(this.template, {header: "Home", session: session.toJSON()});
+    var html = _.template(this.template, {session: session.toJSON()});
     this.$el.html(html);
   },
 
@@ -23,7 +20,9 @@ window.HomeView = Backbone.View.extend({
     var self = this;
     
     utils.formToJSON(event.currentTarget, function(user) {
-      self.model.save(user, {
+      var userModel = new Login();
+
+      userModel.save(user, {
         success: function(model, response, options) {
           if(response.error) {
             self.showError(response.error);
