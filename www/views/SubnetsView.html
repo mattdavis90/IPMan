@@ -1,7 +1,85 @@
 <div class="hero-unit">
+  <div class="row">
+    <div class="span5">
+      <div class="well">
+        <h2>Add Subnet</h2>
+        <hr />
+        <div class="alert alert-error subnet-error" style="display:none"></div>
+        <form class="add-subnet-form form-horizontal">
+          <div class="control-group">
+            <label class="control-label" for="name">Subnet</label>
+            <div class="controls">
+              <input type="text" name="name" placeholder="Subnet" />
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="baseIP">Base IP</label>
+            <div class="controls">
+              <input type="text" name="baseIP" placeholder="e.g. 192.168.0" />
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="ipRange">IP Range</label>
+            <div class="controls">
+              <input class="input-mini" type="text" name="ipRangeStart" placeholder="e.g. 1" />
+              <input class="input-mini" type="text" name="ipRangeEnd" placeholder="e.g. 254" />
+            </div>
+          </div>
+          <hr />
+          <div class="controls">
+            <button type="submit" class="btn btn-primary">Create Subnet</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="span5">
+      <div class="well">
+        <h2>Remove Subnet</h2>
+        <hr />
+        <form class="rem-subnet-form form-horizontal">
+          <div class="control-group">
+            <label class="control-label" for="name">Subnet</label>
+            <div class="controls">
+              <select id="subnet-select">
+                <% _.each(subnets, function(subnet) { %>
+                <option value="<%= subnet %>"><%= subnet %></option>
+                <% }); %>
+              </select>
+            </div>
+          </div>
+          <div class="controls">
+            <button type="submit" class="btn btn-danger">Remove Subnet</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
   <div class="well">
-    <h2>Subnets</h2>
+    <h2>Manage IPs</h2>
     <hr />
-    <p>Subnet management page</p>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Subnet</th>
+          <th>IP Address</th>
+          <th>Leased?</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% _.each(ipAddresses, function(ipAddress) { %>
+          <tr>
+            <td><%= ipAddress.get("subnet") %></td>
+            <td><%= ipAddress.get("ipAddress") %></td>
+            <% if(ipAddress.get("reserved")) { %>
+            <td>Not Available</td>
+            <% } else { %>
+            <td>Available</td>
+            <% } %>
+            <td><button class="btn btn-danger btn-remove" value="<%= ipAddress.get("_id") %>">Remove</button></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
   </div>
 </div>

@@ -26,6 +26,8 @@ exports.getSubnets = function(req, res) {
 exports.getIPs = function(req, res) {
   db.collection('ipAddresses', function(err, collection) {
     collection.find().toArray(function(err, ips) {
+      ips = sortIPs(ips);
+
       res.send(ips);
     });
   });
@@ -36,7 +38,9 @@ exports.getIPs = function(req, res) {
  **/
 exports.getAvailableIPs = function(req, res) {
   db.collection('ipAddresses', function(err, collection) {
-    collection.find({'reserved': false}).sort({ipAddress: 1}).toArray(function(err, ips) {
+    collection.find({'reserved': false}).toArray(function(err, ips) {
+      ips = sortIPs(ips);
+
       res.send(ips);
     });
   });
@@ -259,4 +263,27 @@ exports.removeUser = function(req, res) {
       }
     });
   });
+}
+
+function sortIPs(ips) {
+  ips.sort(function(a, b) {
+    var aParts = a.ipAddress.split(".");
+    var bParts = b.ipAddress.split(".");
+
+    if(aParts[0] == bParts[0]) {
+      if(aParts[1] == bParts[1]) {
+        if(aParts[2] == bParts[2]) {
+          return aParts[3] - bParts[3];
+        } else {
+          return aParts[2] - bParts[2];
+        }
+      } else {
+        return aParts[1] - bParts[1];
+      }
+    } else {
+      return aParts[0] - bParts[0];
+    }
+  });
+
+  return ips;
 }

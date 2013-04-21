@@ -2,7 +2,7 @@ window.LeasesView = Backbone.View.extend({
   el: "#content",
 
   initialize: function() {
-    this.ipAddresses = new IPAddresses();
+    this.ipAddresses = new AvailableIPAddresses();
     this.leases = new Leases();
     this.subnets = new Subnets();
     this.currentSubnet = undefined;
