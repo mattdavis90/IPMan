@@ -54,6 +54,15 @@ window.views = [{
   menuClass  : "subnets-menu",
   menuIcon   : "icon-wrench",
   accessLevel: 2
+}, {
+  reference  : "searchView",
+  name       : "SearchView",
+  route      : "search",
+  showInMenu : true,
+  menuText   : "Search",
+  menuClass  : "search-menu",
+  menuIcon   : "icon-search",
+  accessLevel: 1
 }];
 
 window.session = new Session();

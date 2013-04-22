@@ -1,0 +1,40 @@
+<div class="hero-unit">
+  <div class="well">
+    <h2>Search</h2>
+    <hr />
+    <table id="search-table" class="table">
+      <thead>
+        <tr>
+          <th>Subnet<i></i></th>
+          <th>IP Address<i></i></th>
+          <th>Reserved?<i></i></th>
+          <th>Hostname<i></i></th>
+          <th>Location<i></i></th>
+          <th>Machine Type<i></i></th>
+          <th>Reserved By<i></i></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% _.each(ipAddresses, function(ipAddress) { %>
+        <tr>
+          <td><%= ipAddress.get("subnet") %></td>
+          <td><%= ipAddress.get("ipAddress") %></td>
+          <% if(ipAddress.get("reserved")) { %>
+          <td>Not Available</td>
+          <td><%= ipAddress.get("hostname") %></td>
+          <td><%= ipAddress.get("location") %></td>
+          <td><%= ipAddress.get("machineType") %></td>
+          <td><%= ipAddress.get("reservedBy") %></td>
+          <% } else { %>
+          <td>Available</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <% } %>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</div>
