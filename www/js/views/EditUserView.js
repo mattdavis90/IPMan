@@ -2,7 +2,6 @@ window.EditUserView = Backbone.View.extend({
   el: "#content",
 
   initialize: function () {
-    session.bind('change', this.render, this);
   },
 
   render: function () {
