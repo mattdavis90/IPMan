@@ -40,7 +40,7 @@
           <div class="control-group">
             <label class="control-label" for="name">Subnet</label>
             <div class="controls">
-              <select name="name" id="subnet-select">
+              <select name="name">
                 <% _.each(subnets, function(subnet) { %>
                 <option value="<%= subnet %>"><%= subnet %></option>
                 <% }); %>
