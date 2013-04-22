@@ -19,22 +19,12 @@ db.open(function(err, db) {
 
     db.authenticate(config.mongoUser, config.mongoPwd, function(err, res) {
       if(!err) {
-        db.ensureIndex("ipAddresses", ["ipAddress", "subnet"], function(err, index) {
-          if(!err) {
-            console.log("Successfully set IPAddresses index: " + index);
-
-            db.ensureIndex("users", "username", {"unique": true}, function(err, index) {
-              if(!err) {
-                console.log("Successfully set Users index: " + index);
-              } else {
-                console.error("Could not set index. Exiting...");
-                process.exit(1);
-              }
+        setIndex("ipAddresses", "ipAddress", true, function() {
+          setIndex("ipAddresses", "subnet", false, function() {
+            setIndex("users", "username", true, function() {
+              console.log("Finished Initialising Database");
             });
-          } else {
-            console.error("Could not set index on IPAddresses. Exiting...");
-            process.exit(1);
-          }
+          });
         });
       } else {
         console.error("Could not authenticate. Exiting...");
@@ -59,4 +49,16 @@ exports.getDB = function() {
  **/
 exports.getBSON = function() {
   return BSON;
+}
+
+function setIndex(collection, field, unique, callback) {
+  db.ensureIndex(collection, field, {"unique": unique}, function(err, index) {
+    if(!err) {
+      console.log("Successfully set index: " + collection + "::" + field);
+      callback();
+    } else {
+      console.error("Could not set index " + collection + "::" + field + ". Exiting...");
+      process.exit(1);
+    }
+  });
 }
