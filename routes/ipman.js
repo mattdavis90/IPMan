@@ -3,6 +3,7 @@
  **/
 var crypto = require('crypto');
 var DB = require('../inc/db');
+var audit = require('../inc/audit').audit;
 // Get pointers to some useful types
 var db = DB.getDB();
 var BSON = DB.getBSON();
@@ -15,6 +16,8 @@ exports.getSubnets = function(req, res) {
   db.collection('ipAddresses', function(err, collection) {
     collection.distinct('subnet', function(err, subnets) {
       res.send({subnets: subnets});
+
+      audit(req.session.user.username, req.session.user.name + " listed all subnets");
     });
   });
 }
@@ -31,6 +34,8 @@ exports.removeSubnet = function(req, res) {
         res.send({'error': err});
       } else {
         res.send({});
+
+        audit(req.session.user.username, req.session.user.name + " removed a subnet (" + subnet + ")");
       }
     });
   });
@@ -46,6 +51,8 @@ exports.getIPs = function(req, res) {
       ips = sortIPs(ips);
 
       res.send(ips);
+
+      audit(req.session.user.username, req.session.user.name + " listed all IP addresses");
     });
   });
 }
@@ -59,6 +66,8 @@ exports.getAvailableIPs = function(req, res) {
       ips = sortIPs(ips);
 
       res.send(ips);
+
+      audit(req.session.user.username, req.session.user.name + " listed all available IP addresses");
     });
   });
 }
@@ -72,6 +81,8 @@ exports.getSingleIP = function(req, res) {
   db.collection('ipAddresses', function(err, collection) {
     collection.findOne({'_id':new BSON.ObjectID(id)}, function(err, ip) {
       res.send(ip);
+
+      audit(req.session.user.username, req.session.user.name + " got a single IP address (" + ip.ipAddress + ")");
     });
   });
 }
@@ -80,14 +91,16 @@ exports.getSingleIP = function(req, res) {
  * Adds one or more IPs to the ipAddresses collection
  **/
 exports.addIP = function(req, res) {
-  var ipAddresses = req.body;
+  var ipAddress = req.body;
 
   db.collection('ipAddresses', function(err, collection) {
-    collection.insert(ipAddresses, {safe: true}, function(err, result) {
+    collection.insert(ipAddress, {safe: true}, function(err, result) {
       if(err) {
         res.send({'error': err});
       } else {
         res.send({});
+
+        audit(req.session.user.username, req.session.user.name + " added an IP Address (" + ipAddress.ipAddress + ")");
       }
     });
   });
@@ -105,6 +118,8 @@ exports.removeIP = function(req, res) {
         res.send({'error': err});
       } else {
         res.send({});
+
+        audit(req.session.user.username, req.session.user.name + " removed an IP Address (" + result.ipAddress + ")");
       }
     });
   });
@@ -129,6 +144,8 @@ exports.getLeases = function(req, res) {
       leases = sortIPs(leases);
       
       res.send(leases);
+
+      audit(req.session.user.username, req.session.user.name + " listed all leases");
     });
   });
 }
@@ -152,6 +169,8 @@ exports.addLease = function(req, res) {
           res.send({'error': err});
         } else {
           res.send({});
+          console.log(result);
+          audit(req.session.user.username, req.session.user.name + " added a lease (" + lease.hostname + ")");
         }
       });
     });
@@ -186,6 +205,8 @@ exports.removeLease = function(req, res) {
         res.send({'error': err});
       } else {
         res.send({});
+
+        audit(req.session.user.username, req.session.user.name + " removed a lease");
       }
     });
   });
@@ -199,6 +220,8 @@ exports.getUsers = function(req, res) {
   db.collection('users', function(err, collection) {
     collection.find({"username": {$ne: "root"}}).toArray(function(err, users) {
       res.send(users);
+
+      audit(req.session.user.username, req.session.user.name + " listed all users");
     });
   });
 }
@@ -228,6 +251,8 @@ exports.addUser = function(req, res) {
           res.send({'error': 'User already exists'});
         } else {
           res.send({});
+
+          audit(req.session.user.username, req.session.user.name + " added a user (" + username + ")");
         }
       });
     });
@@ -264,6 +289,8 @@ exports.updateUser = function(req, res) {
           req.session.user.name = name;
 
           res.send({});
+
+          audit(req.session.user.username, req.session.user.name + " changed there account details");
         }
       });
     });
@@ -284,6 +311,8 @@ exports.removeUser = function(req, res) {
         res.send({'error': err});
       } else {
         res.send({});
+
+        audit(req.session.user.username, req.session.user.name + " removed a user");
       }
     });
   });
