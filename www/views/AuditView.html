@@ -1,0 +1,25 @@
+<div class="hero-unit">
+  <div class="well">
+    <h2>Audit Log</h2>
+    <button class="btn btn-danger audit-clear">Clear Log</button>
+    <hr />
+    <table id="audit-table" class="table">
+      <thead>
+        <tr>
+          <th>Timestamp<i></i></th>
+          <th>User<i></i></th>
+          <th>Log Message<i></i></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% _.each(audit, function(log) { %>
+        <tr>
+          <td><%= log.get("date") %></td>
+          <td><%= log.get("username") %></td>
+          <td><%= log.get("message") %></td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</div>

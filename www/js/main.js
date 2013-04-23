@@ -37,6 +37,15 @@ window.views = [{
   route      : "editUser",
   accessLevel: 1
 }, {
+  reference  : "searchView",
+  name       : "SearchView",
+  route      : "search",
+  showInMenu : true,
+  menuText   : "Search",
+  menuClass  : "search-menu",
+  menuIcon   : "icon-search",
+  accessLevel: 1
+}, {
   reference  : "usersView",
   name       : "UsersView",
   route      : "users",
@@ -55,14 +64,14 @@ window.views = [{
   menuIcon   : "icon-wrench",
   accessLevel: 2
 }, {
-  reference  : "searchView",
-  name       : "SearchView",
-  route      : "search",
+  reference  : "auditView",
+  name       : "AuditView",
+  route      : "audit",
   showInMenu : true,
-  menuText   : "Search",
-  menuClass  : "search-menu",
-  menuIcon   : "icon-search",
-  accessLevel: 1
+  menuText   : "Audit Log",
+  menuClass  : "audit-menu",
+  menuIcon   : "icon-check",
+  accessLevel: 2
 }];
 
 window.session = new Session();

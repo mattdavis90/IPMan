@@ -318,6 +318,35 @@ exports.removeUser = function(req, res) {
   });
 }
 
+/**
+ * getAudit()
+ * Get the audit log
+ **/
+exports.getAudit = function(req, res) {
+  db.collection('audit', function(err, collection) {
+    collection.find().toArray(function(err, audit) {
+      res.send(audit);
+    });
+  });
+}
+/**
+ * clearAudit()
+ * Clear the audit log
+ **/
+exports.clearAudit = function(req, res) {
+  db.collection('audit', function(err, collection) {
+    collection.remove({}, {safe: true}, function(err, result) {
+      if(err) {
+        res.send({'error': err});
+      } else {
+        res.send({});
+
+        audit(req.session.user.username, req.session.user.name + " cleared the audit log");
+      }
+    });
+  });
+}
+
 function sortIPs(ips) {
   ips.sort(function(a, b) {
     var aParts = a.ipAddress.split(".");
