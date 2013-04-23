@@ -2,7 +2,7 @@
  * Includes and connect to DB
  **/
 var crypto = require('crypto');
-var DB = require('./db');
+var DB = require('../inc/db');
 // Get pointers to some useful types
 var db = DB.getDB();
 
