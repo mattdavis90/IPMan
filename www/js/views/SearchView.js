@@ -7,6 +7,8 @@ window.SearchView = Backbone.View.extend({
 
   render: function () {
     var self = this;
+    
+    headerView.select(this.menuClass);
 
     this.ipAddresses.fetch({
       success: function(ipAddresses) {
