@@ -56,7 +56,7 @@ window.utils = {
     $.each(views, function(index, view) {
       if(view.route !== undefined) {
         router.route(view.route, "", function() {
-          utils.renderView(view);
+          utils.renderView(view, arguments);
         });
       }
     });
@@ -64,10 +64,10 @@ window.utils = {
     return router;
   },
 
-  renderView: function(view) {
+  renderView: function(view, args) {
     utils.checkAuth(view.accessLevel, function() {
       if(window[view.reference]) {
-        window[view.reference].render();
+        window[view.reference].render(args);
       } else {
         console.error("Cannot render " + view.reference);
       }
